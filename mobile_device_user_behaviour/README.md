@@ -3,17 +3,17 @@
 ## Project Description
 This project aims to analyze the user behaviour of mobile devices.
 
-## Project Structure
-mobile_device_user_behaviour
-├── data
-│   ├── user_behavior_dataset.csv
-│   └── cleaned_data.csv
-├── notebooks
-│   └── 01_data_cleaning.ipynb
-│   └── 02_exploratory_data.ipynb
-├── scripts
-│   └── data_cleaning.py
-│   └── eda.py
+## Project Structure  
+mobile_device_user_behaviour  
+├── data  
+│   ├── user_behavior_dataset.csv  
+│   └── cleaned_data.csv  
+├── notebooks  
+│   └── 01_data_cleaning.ipynb  
+│   └── 02_exploratory_data.ipynb  
+├── scripts  
+│   └── data_cleaning.py  
+│   └── eda.py  
 ├── README.md
 
 
