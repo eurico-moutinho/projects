@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.linear_model import LinearRegression
 
 def join_data(files):
     
@@ -28,8 +29,26 @@ def clean_data(data, countries):
     data = data[data['Countries'].isin(countries)]
 
     df = data.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
-    df.interpolate(method='linear', axis=1, inplace=True)
-    df.fillna(329708, inplace=True)
+    df = df.apply(fill_missing_with_regression, axis=1)
     data = pd.merge(data.iloc[:, :1], df.astype(int), left_index=True, right_index=True)
 
     return data
+
+def fill_missing_with_regression(row):
+    # Identify non-NaN values
+    not_nan = row.dropna()
+    
+    if len(not_nan) > 1:  # If there are enough non-NaN values to fit a model
+        years = np.array([int(year) for year in not_nan.index]).reshape(-1, 1)
+        values = not_nan.values
+        
+        # Fit the linear regression model
+        model = LinearRegression()
+        model.fit(years, values)
+        
+        # Predict missing values
+        for year in row.index:
+            if pd.isna(row[year]):
+                predicted_value = model.predict([[int(year)]])
+                row[year] = predicted_value[0]
+    return row
